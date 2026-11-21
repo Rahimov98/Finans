@@ -48,7 +48,7 @@ nav #add{width:58px;height:58px;border-radius:50%;background:var(--acc);color:va
 .disp{font-size:32px;text-align:right;padding:6px 4px;min-height:48px}
 .pad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
 .pad button{padding:13px 0;font-size:20px;border:0;border-radius:10px;background:var(--card);color:var(--ink);cursor:pointer}.pad .ok{background:var(--acc);color:var(--on)}
-.big{font-size:30px;font-weight:700;margin:2px 0 8px}
+.calc{position:fixed;left:0;right:0;bottom:0;max-width:560px;margin:0 auto;background:var(--card);border-radius:20px 20px 0 0;padding:10px 14px calc(env(safe-area-inset-bottom,0px) + 12px);box-shadow:0 -6px 24px #0009;z-index:10}.calc .f{background:var(--bg);margin-top:6px}.calc .pad button{padding:11px 0}.calc .disp{font-size:28px;min-height:40px;padding:2px 4px}.big{font-size:30px;font-weight:700;margin:2px 0 8px}
 </style>
 </head>
 <body>
@@ -163,7 +163,7 @@ function bind(){
   g("#clr",()=>{if(confirm("Удалить все записи и счета? Это нельзя отменить.")){S.tx=[];S.acc=[];save();render()}});
 }
 
-const modal=h=>{$("#panel").innerHTML=h;$("#sheet").classList.add("open")};
+const modal=h=>{$("#panel").style.paddingBottom="";$("#panel").innerHTML=h;$("#sheet").classList.add("open")};
 const close=()=>$("#sheet").classList.remove("open");
 
 function addAcc(){
@@ -181,23 +181,27 @@ function mngAcc(){
 }
 
 function openSheet(edit){
-  let kind=edit?edit.kind:"exp",cat=edit?edit.cat:EX[0][0],expr=edit?String(edit.amt):"",date=edit?edit.date:today(),note=edit?edit.note||"":"",acc=edit?edit.acc:null,to=edit?edit.to:null;
+  let kind=edit?edit.kind:"exp",cat=edit?edit.cat:EX[0][0],expr=edit?String(edit.amt):"",date=edit?edit.date:today(),note=edit?edit.note||"":"",acc=edit?edit.acc:null,to=edit?edit.to:null,pick=!!edit;
   const opts=(sel,none)=>(none?`<option value="">${none}</option>`:"")+S.acc.map(a=>`<option value="${a.id}" ${a.id===sel?"selected":""}>${esc(a.name)}</option>`).join("");
   const keep=()=>{const n=$("#note");if(n){note=n.value;date=$("#dt").value||date}const a=$("#sa");if(a)acc=+a.value||null;const t=$("#st");if(t)to=+t.value||null};
   const draw=()=>{
+    const st=$("#panel").scrollTop,show=pick||kind==="tr";
     modal(`<div class="ph"><button class="x" id="cn">Отмена</button><b>${edit?"Изменить":"Добавить"}</b><span></span></div>
     <div class="seg">${[["exp","Расход"],["inc","Доход"],["tr","Перевод"]].map(([k,l])=>`<button data-k="${k}" class="${kind===k?"on":""}">${l}</button>`).join("")}</div>
     ${kind==="tr"?`<div class="two"><label>Откуда<select class="f" id="sa">${opts(acc,"Выбрать")}</select></label><label>Куда<select class="f" id="st">${opts(to,"Выбрать")}</select></label></div>`
-    :`<div class="cats">${cats(kind).map(c=>`<button class="cat ${c[0]===cat?"on":""}" data-c="${esc(c[0])}"><span class="ic">${c[1]}</span>${esc(c[0])}</button>`).join("")}<button class="cat" id="newc"><span class="ic">＋</span>Своя</button></div>`}
+    :`<div class="cats">${cats(kind).map(c=>`<button class="cat ${pick&&c[0]===cat?"on":""}" data-c="${esc(c[0])}"><span class="ic">${c[1]}</span>${esc(c[0])}</button>`).join("")}<button class="cat" id="newc"><span class="ic">＋</span>Своя</button></div>`}
+    ${show?`<div class="calc"><div class="row"><b>${kind==="tr"?"Перевод":icon(kind,cat)+" "+esc(cat)}</b>${kind==="tr"?"":`<button class="x" id="hide" aria-label="Скрыть калькулятор">✕</button>`}</div>
     <div class="disp" id="disp">${expr||"0"}</div>
     <input class="f" id="note" placeholder="Заметка" maxlength="80" value="${esc(note)}">
     <div class="two"><input class="f" type="date" id="dt" value="${date}">${kind==="tr"?"<span></span>":`<select class="f" id="sa">${opts(acc,"Без счёта")}</select>`}</div>
     <div class="pad">${["7","8","9","⌫","4","5","6","+","1","2","3","−",".","0","00","="].map(k=>`<button data-n="${k}" class="${k==="="?"ok":""}">${k}</button>`).join("")}</div>
-    ${edit?`<button class="btn alt" id="del">Удалить запись</button>`:""}`);
+    ${edit?`<button class="btn alt" id="del">Удалить запись</button>`:""}</div>`:""}`);
+    $("#panel").style.paddingBottom=show?(edit?"540px":"480px"):"";$("#panel").scrollTop=st;
     $("#cn").onclick=close;
-    $$("[data-k]").forEach(b=>b.onclick=()=>{keep();kind=b.dataset.k;cat=kind==="exp"?EX[0][0]:IN[0][0];draw()});
-    $$("[data-c]").forEach(b=>b.onclick=()=>{keep();cat=b.dataset.c;draw()});
-    const nc=$("#newc");if(nc)nc.onclick=()=>{const n=(prompt("Название категории:")||"").trim();if(n){keep();S[kind==="exp"?"cx":"ci"].push(n);cat=n;save();draw()}};
+    const hd=$("#hide");if(hd)hd.onclick=()=>{keep();pick=false;draw()};
+    $$("[data-k]").forEach(b=>b.onclick=()=>{keep();kind=b.dataset.k;cat=kind==="exp"?EX[0][0]:IN[0][0];pick=false;draw()});
+    $$("[data-c]").forEach(b=>b.onclick=()=>{keep();cat=b.dataset.c;pick=true;draw()});
+    const nc=$("#newc");if(nc)nc.onclick=()=>{const n=(prompt("Название категории:")||"").trim();if(n){keep();S[kind==="exp"?"cx":"ci"].push(n);cat=n;pick=true;save();draw()}};
     $$("[data-n]").forEach(b=>b.onclick=()=>key(b.dataset.n));
     if(edit)$("#del").onclick=()=>{S.tx=S.tx.filter(t=>t.id!==edit.id);save();close();render()};
   };
