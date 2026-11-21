@@ -392,7 +392,9 @@ function lockNow(){
   locked=true;close();$("#lock").hidden=false;$("#lp").value="";$("#le").textContent="";$("#lb").hidden=!S.sec.bio;
   if(S.sec.bio)setTimeout(bioLogin,300);
 }
-function unlock(){locked=false;$("#lock").hidden=true}
+const LOCK_MS=3*60000;
+function stamp(){if(!locked)try{sessionStorage.setItem("finansy.ok",String(Date.now()))}catch(e){}}
+function unlock(){locked=false;$("#lock").hidden=true;stamp()}
 $("#lo").onclick=async()=>{
   if(await hashPw($("#lp").value,S.sec.salt)===S.sec.hash)unlock();
   else{$("#le").textContent="Неверный пароль";$("#lp").value=""}
@@ -400,15 +402,15 @@ $("#lo").onclick=async()=>{
 $("#lp").onkeydown=e=>{if(e.key==="Enter")$("#lo").click()};
 $("#lb").onclick=bioLogin;
 document.addEventListener("visibilitychange",()=>{
-  if(document.hidden){hiddenAt=Date.now();saveUI()}
-  else if(S.sec.hash&&!locked&&Date.now()-hiddenAt>60000)lockNow();
+  if(document.hidden){hiddenAt=Date.now();saveUI();stamp()}
+  else if(S.sec.hash&&!locked&&Date.now()-hiddenAt>LOCK_MS)lockNow();
 });
 let _st;addEventListener("scroll",()=>{clearTimeout(_st);_st=setTimeout(saveUI,300)},{passive:true});
-addEventListener("pagehide",saveUI);
+addEventListener("pagehide",()=>{saveUI();stamp()});
 
 $$("[data-i]").forEach(e=>e.innerHTML=svg(e.dataset.i));
 render();
-if(S.sec.hash)lockNow();
+if(S.sec.hash){let t=0;try{t=+sessionStorage.getItem("finansy.ok")||0}catch(e){}if(Date.now()-t>LOCK_MS)lockNow()}
 requestAnimationFrame(()=>window.scrollTo(0,U.y||0));
 </script>
 </body>
