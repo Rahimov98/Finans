@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Финансы</title>
+<style>
+:root{--bg:#181818;--card:#262626;--ink:#f2f2f2;--mute:#8d8d8d;--line:#333;--acc:#f7d44c;--on:#1b1b1b;--neg:#ff7a6b;--pos:#6fd49a;color-scheme:dark}
+:root[data-t=light]{--bg:#f4f5f2;--card:#fff;--ink:#1b1b1b;--mute:#6e7378;--line:#e3e6e1;--neg:#d9482f;--pos:#1f9254;color-scheme:light}
+*{box-sizing:border-box;margin:0}
+body{font:16px/1.4 system-ui,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:92px}
+header{padding:calc(env(safe-area-inset-top,0px) + 12px) 14px 10px;border-bottom:1px solid var(--line)}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:20px}
+.top button,.x{background:none;border:0;color:var(--ink);font-size:20px;cursor:pointer}
+.hs{display:flex;gap:14px;align-items:center;margin-top:8px}
+.hs>div{flex:1}.hs small{display:block;color:var(--mute);font-size:13px}.hs b{font-size:18px;font-weight:600}
+#mp{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:6px;font:inherit;font-size:14px;width:128px}
+main{max-width:560px;margin:0 auto;padding:6px 14px}
+.day{display:flex;justify-content:space-between;color:var(--mute);font-size:13px;padding:12px 0 6px;border-bottom:1px solid var(--line)}
+.item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:20px;flex:none}
+.item .t{flex:1;min-width:0}.item .t small{display:block;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.neg{color:var(--neg)}.pos{color:var(--pos)}
+.empty{text-align:center;color:var(--mute);padding:56px 12px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:flex-end;padding:6px 0 calc(env(safe-area-inset-bottom,0px) + 8px)}
+nav button{background:none;border:0;color:var(--mute);font:inherit;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 10px;cursor:pointer}
+nav button span{font-size:20px}nav button.on{color:var(--acc)}
+nav #add{width:58px;height:58px;border-radius:50%;background:var(--acc);color:var(--on);font-size:32px;margin-top:-26px;justify-content:center;padding:0;box-shadow:0 4px 14px #0006}
+.seg{display:flex;border:1px solid var(--ink);border-radius:10px;overflow:hidden;margin:10px 0}
+.seg button{flex:1;border:0;background:none;color:var(--ink);padding:9px;font:inherit;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg);font-weight:700}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;background:none;border:0;border-bottom:3px solid transparent;color:var(--mute);padding:10px 4px;font:inherit;font-size:14px;cursor:pointer}
+.tabs button.on{color:var(--ink);border-color:var(--acc)}
+.card{background:var(--card);border-radius:14px;padding:14px;margin:12px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.card .row+.row{margin-top:6px}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:6px}.bar i{display:block;height:100%}
+.cr{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.cr>div{flex:1}
+.f,.btn{font:inherit;width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-top:8px}
+.btn{background:var(--acc);color:var(--on);border:0;cursor:pointer;font-weight:600}.btn.alt{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#sheet{position:fixed;inset:0;background:#000a;display:none;z-index:9}#sheet.open{display:block}
+.panel{background:var(--bg);max-width:560px;height:100%;margin:0 auto;overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 24px}
+.ph{display:flex;justify-content:space-between;align-items:center}
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.cat{background:none;border:2px solid transparent;border-radius:14px;color:var(--ink);font:inherit;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;cursor:pointer;word-break:break-word;text-align:center}
+.cat .ic{background:var(--card)}.cat.on{border-color:var(--acc)}
+.disp{font-size:32px;text-align:right;padding:6px 4px;min-height:48px}
+.pad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.pad button{padding:13px 0;font-size:20px;border:0;border-radius:10px;background:var(--card);color:var(--ink);cursor:pointer}.pad .ok{background:var(--acc);color:var(--on)}
+.big{font-size:30px;font-weight:700;margin:2px 0 8px}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><b>Финансы</b><button id="sb" aria-label="Поиск">🔍</button></div>
+  <input class="f" id="q" placeholder="Поиск по категориям и заметкам" hidden>
+  <div class="hs"><input type="month" id="mp"><div><small>Расходы</small><b id="sE"></b></div><div><small>Доходы</small><b id="sI"></b></div><div><small>Баланс</small><b id="sB"></b></div></div>
+</header>
+<main id="view"></main>
+<nav>
+  <button data-t="list"><span>🧾</span>Записи</button>
+  <button data-t="chart"><span>🍩</span>Графики</button>
+  <button id="add" aria-label="Добавить запись">+</button>
+  <button data-t="report"><span>📑</span>Отчёты</button>
+  <button data-t="me"><span>👤</span>Профиль</button>
+</nav>
+<div id="sheet"><div class="panel" id="panel"></div></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const KEY="finansy.v2";
+let S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+S=Object.assign({tx:[],acc:[],budget:0,cx:[],ci:[],theme:"dark"},S||{});
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const EX=[["Копилка","🐷"],["Шоппинг","🛒"],["Еда","🍴"],["Телефон","📱"],["Развлечения","🎮"],["Образование","🎓"],["Красота","✂️"],["Спорт","🏃"],["Общение","👥"],["Транспорт","🚌"],["Одежда","👕"],["Автомобиль","🚗"],["Алкоголь","🍷"],["Сигареты","🚬"],["Электроника","🖥️"],["Путешествия","✈️"],["Здоровье","❤️"],["Питомец","🐶"],["Ремонт","🔧"],["Жильё","🏠"],["Мебель","🛋️"],["Подарки","🎁"],["Помощь","🤲"],["Лотерея","🎲"],["Закуски","🍿"],["Детские","👶"],["Овощи","🥕"],["Фрукты","🍒"]];
+const IN=[["Зарплата","💼"],["Инвестиции","📈"],["Подработка","🤝"],["Бонусы","🏆"],["Другие","🪙"]];
+const cats=k=>k==="exp"?[...EX,...S.cx.map(n=>[n,"🏷️"])]:[...IN,...S.ci.map(n=>[n,"🏷️"])];
+const icon=(k,n)=>(cats(k).find(c=>c[0]===n)||[0,"📦"])[1];
+const col=n=>{let h=0;for(const c of n)h=(h*31+c.charCodeAt(0))%360;return`hsl(${h} 55% 62%)`};
+const fmt=n=>n.toLocaleString("ru-RU",{maximumFractionDigits:2});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const MN=["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+const mk=(y,m)=>y+"-"+String(m+1).padStart(2,"0");
+let cur=new Date(),tab="list",ct="exp",per="c",rt="an",q="";
+cur.setDate(1);
+const curYM=()=>mk(cur.getFullYear(),cur.getMonth());
+const prevYM=()=>{const d=new Date(cur.getFullYear(),cur.getMonth()-1,1);return mk(d.getFullYear(),d.getMonth())};
+const inP=(t,p)=>p==="c"?t.date.slice(0,7)===curYM():p==="p"?t.date.slice(0,7)===prevYM():t.date.slice(0,4)===String(cur.getFullYear());
+const tot=(a,k)=>a.filter(t=>t.kind===k).reduce((s,t)=>s+t.amt,0);
+const today=()=>{const d=new Date();return mk(d.getFullYear(),d.getMonth())+"-"+String(d.getDate()).padStart(2,"0")};
+const accName=id=>(S.acc.find(a=>a.id===id)||{name:"—"}).name;
+const bal=a=>a.start+S.tx.reduce((s,t)=>s+(t.acc===a.id?(t.kind==="inc"?t.amt:-t.amt):0)+(t.kind==="tr"&&t.to===a.id?t.amt:0),0);
+document.documentElement.dataset.t=S.theme;
+
+function render(){
+  const m=S.tx.filter(t=>inP(t,"c")),e=tot(m,"exp"),i=tot(m,"inc");
+  $("#mp").value=curYM();$("#sE").textContent=fmt(e);$("#sI").textContent=fmt(i);$("#sB").textContent=fmt(i-e);
+  $$("nav [data-t]").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));
+  $("#view").innerHTML={list,chart,report,me}[tab]();
+  bind();
+}
+
+function list(){
+  const a=(q?S.tx.filter(t=>((t.cat||"Перевод")+" "+(t.note||"")).toLowerCase().includes(q)):S.tx.filter(t=>inP(t,"c"))).sort((x,y)=>y.date.localeCompare(x.date)||y.id-x.id);
+  if(!a.length)return`<div class="empty">${q?"Ничего не найдено.":"В этом месяце записей нет.<br>Нажмите «+», чтобы добавить первую."}</div>`;
+  const g={};a.forEach(t=>(g[t.date]??=[]).push(t));
+  return Object.keys(g).map(d=>{
+    const l=new Date(d+"T00:00:00").toLocaleDateString("ru-RU",{day:"numeric",month:"short",weekday:"long"});
+    return`<div class="day"><span>${l}</span><span>Расходы: ${fmt(tot(g[d],"exp"))} · Доходы: ${fmt(tot(g[d],"inc"))}</span></div>`+g[d].map(t=>{
+      const tr=t.kind==="tr",c=tr?"Перевод":t.cat;
+      return`<div class="item" data-id="${t.id}"><div class="ic" style="background:${tr?"#8883":col(c)+"33"}">${tr?"🔁":icon(t.kind,c)}</div><div class="t">${esc(c)}<small>${tr?esc(accName(t.acc))+" → "+esc(accName(t.to)):esc(t.note||"")}</small></div><b class="${tr?"":t.kind==="exp"?"neg":"pos"}">${t.kind==="exp"?"−":t.kind==="inc"?"+":""}${fmt(t.amt)}</b></div>`}).join("");
+  }).join("");
+}
+
+function chart(){
+  const src=S.tx.filter(t=>t.kind===ct&&inP(t,per)),T=src.reduce((s,t)=>s+t.amt,0),by={};
+  src.forEach(t=>by[t.cat]=(by[t.cat]||0)+t.amt);
+  const rows=Object.entries(by).sort((a,b)=>b[1]-a[1]);
+  const pl=(p)=>{const d=p==="p"?new Date(cur.getFullYear(),cur.getMonth()-1,1):cur;return MN[d.getMonth()]};
+  let h=`<div class="seg"><button data-ct="exp" class="${ct==="exp"?"on":""}">Расходы</button><button data-ct="inc" class="${ct==="inc"?"on":""}">Доходы</button></div>
+  <div class="tabs">${[["y","Год "+cur.getFullYear()],["p",pl("p")],["c",pl("c")]].map(([k,l])=>`<button data-p="${k}" class="${per===k?"on":""}">${l}</button>`).join("")}</div>`;
+  if(!rows.length)return h+`<div class="empty">Нет данных за выбранный период.</div>`;
+  const R=70,C=2*Math.PI*R;let off=0;
+  const arcs=rows.map(([c,v])=>{const l=v/T*C,s=`<circle r="${R}" cx="100" cy="100" fill="none" stroke="${col(c)}" stroke-width="28" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-off}" transform="rotate(-90 100 100)"/>`;off+=l;return s}).join("");
+  h+=`<svg viewBox="0 0 200 200" width="100%" height="210" role="img" aria-label="Диаграмма по категориям">${arcs}<text x="100" y="107" text-anchor="middle" font-size="22" font-weight="700" fill="currentColor">${fmt(T)}</text></svg>`;
+  return h+rows.map(([c,v])=>{const p=v/T*100;return`<div class="cr"><div class="ic" style="background:${col(c)}33">${icon(ct,c)}</div><div><div class="row"><span>${esc(c)}</span><b>${fmt(v)}</b></div><div class="row"><div class="bar" style="flex:1"><i style="width:${p}%;background:${col(c)}"></i></div><small style="color:var(--mute)">${p.toFixed(1)}%</small></div></div></div>`}).join("");
+}
+
+function report(){
+  let h=`<div class="seg"><button data-r="an" class="${rt==="an"?"on":""}">Аналитика</button><button data-r="ac" class="${rt==="ac"?"on":""}">Счета</button></div>`;
+  if(rt==="an"){
+    const m=S.tx.filter(t=>inP(t,"c")),e=tot(m,"exp"),i=tot(m,"inc"),b=S.budget,left=b-e,p=b?Math.min(100,e/b*100):0,R=44,C=2*Math.PI*R;
+    return h+`<div class="card"><b>Статистика — ${MN[cur.getMonth()].toLowerCase()}</b><div class="two" style="margin-top:10px"><div><small style="color:var(--mute)">Расходы</small><div class="big neg">${fmt(e)}</div></div><div><small style="color:var(--mute)">Доходы</small><div class="big pos">${fmt(i)}</div></div></div><div class="row"><span>Баланс</span><b>${fmt(i-e)}</b></div></div>
+    <div class="card"><b>Ежемесячный бюджет</b><div class="row" style="margin-top:10px"><div style="flex:1"><div class="row"><span style="color:var(--mute)">Бюджет</span><span>${fmt(b)}</span></div><div class="row"><span style="color:var(--mute)">Расходы</span><span>${fmt(e)}</span></div><div class="row"><span style="color:var(--mute)">Остаток</span><b class="${left<0?"neg":""}">${fmt(left)}</b></div></div>
+    <svg viewBox="0 0 110 110" width="110" height="110"><circle cx="55" cy="55" r="${R}" fill="none" stroke="var(--line)" stroke-width="8"/><circle cx="55" cy="55" r="${R}" fill="none" stroke="${left<0?"var(--neg)":"var(--acc)"}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${p/100*C} ${C}" transform="rotate(-90 55 55)"/><text x="55" y="60" text-anchor="middle" font-size="16" fill="currentColor">${b?Math.round(p)+"%":"—"}</text></svg></div>
+    <button class="btn alt" id="setB">Настроить бюджет</button></div>`;
+  }
+  const A=S.acc.filter(a=>!a.debt).reduce((s,a)=>s+bal(a),0),D=-S.acc.filter(a=>a.debt).reduce((s,a)=>s+bal(a),0);
+  return h+`<div class="card"><small style="color:var(--mute)">Чистые активы</small><div class="big">${fmt(A-D)}</div><div class="two"><div><small style="color:var(--mute)">Активы</small><div><b>${fmt(A)}</b></div></div><div><small style="color:var(--mute)">Обязательства</small><div><b>${fmt(D)}</b></div></div></div></div>
+  <div class="two"><button class="btn alt" id="addAcc">Добавить счёт</button><button class="btn alt" id="mngAcc">Управление счетами</button></div>`+
+  S.acc.map(a=>`<div class="cr"><div class="ic" style="background:${col(a.name)}33">${a.debt?"💳":"👛"}</div><div>${esc(a.name)}<br><small style="color:var(--mute)">${a.debt?"Обязательство":"Актив"}</small></div><b>${fmt(a.debt?-bal(a):bal(a))}</b></div>`).join("");
+}
+
+function me(){
+  return`<div class="card"><b>Профиль</b><p style="color:var(--mute);margin-top:6px">Данные хранятся только на этом устройстве, в браузере.</p></div>
+  <button class="btn alt" id="th">Тема: ${S.theme==="dark"?"тёмная":"светлая"}</button>
+  <button class="btn alt" id="csv">Экспорт в CSV</button>
+  <button class="btn alt" id="clr">Удалить все данные</button>`;
+}
+
+function bind(){
+  $$(".item").forEach(el=>el.onclick=()=>openSheet(S.tx.find(t=>t.id==el.dataset.id)));
+  $$("[data-ct]").forEach(b=>b.onclick=()=>{ct=b.dataset.ct;render()});
+  $$("[data-p]").forEach(b=>b.onclick=()=>{per=b.dataset.p;render()});
+  $$("[data-r]").forEach(b=>b.onclick=()=>{rt=b.dataset.r;render()});
+  const g=(id,f)=>{const e=$(id);if(e)e.onclick=f};
+  g("#setB",()=>{const v=prompt("Бюджет на месяц:",S.budget||"");if(v!==null){S.budget=Math.max(0,parseFloat(v.replace(",","."))||0);save();render()}});
+  g("#addAcc",addAcc);g("#mngAcc",mngAcc);
+  g("#th",()=>{S.theme=S.theme==="dark"?"light":"dark";document.documentElement.dataset.t=S.theme;save();render()});
+  g("#csv",()=>{
+    const r=[["Дата","Тип","Категория","Сумма","Заметка","Счёт"],...S.tx.map(t=>[t.date,{exp:"Расход",inc:"Доход",tr:"Перевод"}[t.kind],t.cat||"",t.amt,'"'+(t.note||"").replace(/"/g,'""')+'"',accName(t.acc)])];
+    const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+r.map(x=>x.join(";")).join("\n")],{type:"text/csv"}));a.download="finansy.csv";a.click()});
+  g("#clr",()=>{if(confirm("Удалить все записи и счета? Это нельзя отменить.")){S.tx=[];S.acc=[];save();render()}});
+}
+
+const modal=h=>{$("#panel").innerHTML=h;$("#sheet").classList.add("open")};
+const close=()=>$("#sheet").classList.remove("open");
+
+function addAcc(){
+  let debt=0;
+  modal(`<div class="ph"><button class="x" id="cn">Отмена</button><b>Новый счёт</b><span></span></div><input class="f" id="an" placeholder="Название (например, Наличные)" maxlength="30"><input class="f" id="av" inputmode="decimal" placeholder="Текущая сумма"><div class="seg"><button data-d="0" class="on">Актив</button><button data-d="1">Обязательство</button></div><button class="btn" id="ok">Сохранить</button>`);
+  $("#cn").onclick=close;
+  $$("[data-d]").forEach(b=>b.onclick=()=>{debt=+b.dataset.d;$$("[data-d]").forEach(x=>x.classList.toggle("on",x===b))});
+  $("#ok").onclick=()=>{const n=$("#an").value.trim(),v=Math.abs(parseFloat($("#av").value.replace(",","."))||0);if(!n)return;
+    S.acc.push({id:Date.now(),name:n,start:debt?-v:v,debt:!!debt});save();close();render()};
+}
+function mngAcc(){
+  modal(`<div class="ph"><button class="x" id="cn">Закрыть</button><b>Счета</b><span></span></div>`+(S.acc.length?S.acc.map(a=>`<div class="cr"><div>${esc(a.name)}</div><button class="btn alt" style="width:auto;margin:0" data-del="${a.id}">Удалить</button></div>`).join(""):`<div class="empty">Счетов пока нет.</div>`));
+  $("#cn").onclick=close;
+  $$("[data-del]").forEach(b=>b.onclick=()=>{if(confirm("Удалить счёт? Записи останутся без счёта.")){const id=+b.dataset.del;S.acc=S.acc.filter(a=>a.id!==id);S.tx.forEach(t=>{if(t.acc===id)t.acc=null;if(t.to===id)t.to=null});save();mngAcc();render()}});
+}
+
+function openSheet(edit){
+  let kind=edit?edit.kind:"exp",cat=edit?edit.cat:EX[0][0],expr=edit?String(edit.amt):"",date=edit?edit.date:today(),note=edit?edit.note||"":"",acc=edit?edit.acc:null,to=edit?edit.to:null;
+  const opts=(sel,none)=>(none?`<option value="">${none}</option>`:"")+S.acc.map(a=>`<option value="${a.id}" ${a.id===sel?"selected":""}>${esc(a.name)}</option>`).join("");
+  const keep=()=>{const n=$("#note");if(n){note=n.value;date=$("#dt").value||date}const a=$("#sa");if(a)acc=+a.value||null;const t=$("#st");if(t)to=+t.value||null};
+  const draw=()=>{
+    modal(`<div class="ph"><button class="x" id="cn">Отмена</button><b>${edit?"Изменить":"Добавить"}</b><span></span></div>
+    <div class="seg">${[["exp","Расход"],["inc","Доход"],["tr","Перевод"]].map(([k,l])=>`<button data-k="${k}" class="${kind===k?"on":""}">${l}</button>`).join("")}</div>
+    ${kind==="tr"?`<div class="two"><label>Откуда<select class="f" id="sa">${opts(acc,"Выбрать")}</select></label><label>Куда<select class="f" id="st">${opts(to,"Выбрать")}</select></label></div>`
+    :`<div class="cats">${cats(kind).map(c=>`<button class="cat ${c[0]===cat?"on":""}" data-c="${esc(c[0])}"><span class="ic">${c[1]}</span>${esc(c[0])}</button>`).join("")}<button class="cat" id="newc"><span class="ic">＋</span>Своя</button></div>`}
+    <div class="disp" id="disp">${expr||"0"}</div>
+    <input class="f" id="note" placeholder="Заметка" maxlength="80" value="${esc(note)}">
+    <div class="two"><input class="f" type="date" id="dt" value="${date}">${kind==="tr"?"<span></span>":`<select class="f" id="sa">${opts(acc,"Без счёта")}</select>`}</div>
+    <div class="pad">${["7","8","9","⌫","4","5","6","+","1","2","3","−",".","0","00","="].map(k=>`<button data-n="${k}" class="${k==="="?"ok":""}">${k}</button>`).join("")}</div>
+    ${edit?`<button class="btn alt" id="del">Удалить запись</button>`:""}`);
+    $("#cn").onclick=close;
+    $$("[data-k]").forEach(b=>b.onclick=()=>{keep();kind=b.dataset.k;cat=kind==="exp"?EX[0][0]:IN[0][0];draw()});
+    $$("[data-c]").forEach(b=>b.onclick=()=>{keep();cat=b.dataset.c;draw()});
+    const nc=$("#newc");if(nc)nc.onclick=()=>{const n=(prompt("Название категории:")||"").trim();if(n){keep();S[kind==="exp"?"cx":"ci"].push(n);cat=n;save();draw()}};
+    $$("[data-n]").forEach(b=>b.onclick=()=>key(b.dataset.n));
+    if(edit)$("#del").onclick=()=>{S.tx=S.tx.filter(t=>t.id!==edit.id);save();close();render()};
+  };
+  const calc=()=>{const s=expr.replace(/−/g,"-");if(!/^-?[\d.]+([+\-][\d.]+)*$/.test(s))return null;const n=s.match(/-?[\d.]+/g).reduce((a,b)=>a+parseFloat(b),0);return isFinite(n)?Math.round(n*100)/100:null};
+  const key=k=>{
+    if(k==="⌫")expr=expr.slice(0,-1);
+    else if(k==="="){
+      const v=calc();if(v===null)return;
+      if(/[+−]/.test(expr.slice(1))){expr=String(v);$("#disp").textContent=expr;return}
+      if(v<=0)return;keep();
+      if(kind==="tr"&&(!acc||!to||acc===to)){alert("Выберите два разных счёта.");return}
+      const rec={kind,cat:kind==="tr"?null:cat,amt:v,date,note,acc,to:kind==="tr"?to:null};
+      if(edit)Object.assign(edit,rec);else S.tx.push({id:Date.now(),...rec});
+      save();close();render();return;
+    }else if("+−".includes(k)){if(!expr||/[+−]$/.test(expr))return;expr+=k}
+    else expr+=k;
+    $("#disp").textContent=expr||"0";
+  };
+  draw();
+}
+
+$("#add").onclick=()=>openSheet();
+$("#sheet").onclick=e=>{if(e.target.id==="sheet")close()};
+$("#mp").onchange=e=>{const v=e.target.value;if(v){cur=new Date(+v.slice(0,4),+v.slice(5,7)-1,1);render()}};
+$("#sb").onclick=()=>{const i=$("#q");i.hidden=!i.hidden;if(i.hidden){q="";i.value="";render()}else i.focus()};
+$("#q").oninput=e=>{q=e.target.value.trim().toLowerCase();render()};
+$$("nav [data-t]").forEach(b=>b.onclick=()=>{tab=b.dataset.t;render()});
+render();
+</script>
+</body>
+</html>
