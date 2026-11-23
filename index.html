@@ -72,6 +72,13 @@ nav #add{justify-self:center;width:42px;height:42px;border-radius:14px;backgroun
 #lock{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;padding:24px}
 .lk{width:100%;max-width:320px;text-align:center}.lk>b{font-size:18px;display:block;margin:8px 0 14px}.lg2{font-size:34px;color:var(--acc);display:grid;place-items:center}
 .icg{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:8px 0 4px}.pi{aspect-ratio:1;border:1px solid var(--line);background:var(--card);border-radius:12px;display:grid;place-items:center;font-size:20px;color:var(--ink);cursor:pointer;padding:0}.pi.on{border-color:var(--acc);color:var(--acc);background:var(--s2)}
+.cs{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.cs .cn2{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.acts{display:flex}.acts .x{width:30px;height:30px;font-size:16px;color:var(--mute);padding:0}.acts .x:disabled{opacity:.25}
+.stk{position:sticky;bottom:0;padding:14px 0 6px;background:linear-gradient(rgba(0,0,0,0),var(--bg) 35%)}
+.stt{position:sticky;top:0;z-index:3;background:var(--bg);padding-bottom:8px}
+.ed{display:flex;align-items:center;gap:10px}.ed .ic{width:46px;height:46px;border-radius:14px;font-size:22px}.ed .f{margin-top:0}
+.clg{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.cc{width:28px;height:28px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:#14120a;font-size:14px;padding:0}
+.gt{text-align:center;color:var(--mute);font-size:12px;margin:18px 0 6px}
+.pi.on{background:var(--sel,var(--acc));border-color:transparent;color:#14120a}
 .big{font-size:22px;font-weight:700;margin:2px 0 6px}
 @media(max-width:350px){.hs b{font-size:14px}.hs>div{padding:0 2px}.cat{font-size:10px}.cat .ic{width:36px;height:36px}}
 @media(max-height:600px){.pad button{height:34px}.disp{font-size:20px;min-height:28px}}
@@ -101,16 +108,24 @@ let S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 S=Object.assign({tx:[],acc:[],budget:0,cx:[],ci:[],theme:"dark",goals:[],sec:{}},S||{});
 if(!S.sec||typeof S.sec!=="object")S.sec={};if(!Array.isArray(S.goals))S.goals=[];
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
-const IC={menu:'<path d="M4 7h16M4 12h10M4 17h13"/>',cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/>',down:'<path d="M6 9l6 6 6-6"/>',coffee:'<path d="M5 8h11v6a4 4 0 01-4 4H9a4 4 0 01-4-4zM16 9h2a2 2 0 010 4h-2M8 3v2M12 3v2"/>',bolt:'<path d="M13 3L5 14h6l-1 7 8-11h-6z"/>',music:'<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',camera:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.5"/>',leaf:'<path d="M5 19C5 10 10 5 20 4c0 10-5 15-14 15zM5 19c3-5 6-8 10-10"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',finger:'<path d="M6 11a6 6 0 0112 0v2M9 20c-.5-2-1-4-1-6a4 4 0 018 0c0 2 .5 4 1 6M12 11v4c0 2 .5 3.5 1 5M4 15c.3-1 .5-2 .5-3"/>',more:'<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',piggy:'<path d="M5 11c0-3 3-5 7-5s7 2 7 5-1 4-3 5v3h-3v-2h-2v2H8v-3c-2-1-3-2-3-5z"/><path d="M15 10h.01M9.5 6.5l1-2"/>',cart:'<circle cx="9" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/><path d="M3 4h2l2.5 10h10L20 7H6.5"/>',food:'<path d="M6 3v7a2 2 0 004 0V3M8 3v18M17 21V3c-2 1.5-3 4-3 7 0 2 1 3 3 3"/>',phone:'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/>',game:'<rect x="3" y="8" width="18" height="10" rx="4"/><path d="M8 11v4M6 13h4M15.5 12h.01M17.5 14h.01"/>',edu:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c3 2 9 2 12 0v-4.5"/>',scissors:'<circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M8 7.5L20 18M8 16.5L20 6"/>',sport:'<path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"/>',people:'<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.3"/><path d="M17 14c2.5 0 4 2 4 5"/>',bus:'<rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M8 20v-3M16 20v-3M8.5 14h.01M15.5 14h.01"/>',shirt:'<path d="M8 3L3 6l2 4 3-1v12h8V9l3 1 2-4-5-3c-1 1.5-2 2-4 2S9 4.5 8 3z"/>',car:'<path d="M4 16v-4l2-5h12l2 5v4M3 16h18M4 16v3h3v-3M17 16v3h3v-3M7 12h10"/>',glass:'<path d="M7 3h10c0 5-2 8-5 8S7 8 7 3zM12 11v9M8 21h8"/>',cig:'<path d="M3 16h13v3H3zM19 16v3M22 16v3M17 5c0 3 3 3 3 7"/>',monitor:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/>',plane:'<path d="M3 13l18-9-6 17-3-7z"/>',heart:'<path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/>',paw:'<circle cx="6" cy="10" r="1.8"/><circle cx="10" cy="6" r="1.8"/><circle cx="14" cy="6" r="1.8"/><circle cx="18" cy="10" r="1.8"/><path d="M12 12c-3 0-5 3-5 5 0 2 2 2.5 5 2.5s5-.5 5-2.5c0-2-2-5-5-5z"/>',wrench:'<path d="M15 4a4.5 4.5 0 00-4 6l-7 7a2 2 0 003 3l7-7a4.5 4.5 0 006-4l-3 2-2-2 2-3z"/>',home:'<path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"/>',sofa:'<path d="M5 11V8a2 2 0 012-2h10a2 2 0 012 2v3M3 13a2 2 0 014 0v1h10v-1a2 2 0 014 0v4H3zM6 17v2M18 17v2"/>',gift:'<rect x="3" y="8" width="18" height="4"/><path d="M5 12v8h14v-8M12 8v12M12 8S9 8 8.5 6 10 3.5 12 8zM12 8s3 0 3.5-2S14 3.5 12 8z"/>',hand:'<path d="M3 15h4l4 2 7-1.5a1.6 1.6 0 00-.5-3L14 12M7 13l5-3 3 1M3 13v7h4"/>',dice:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 8.5h.01M15.5 8.5h.01M12 12h.01M8.5 15.5h.01M15.5 15.5h.01"/>',snack:'<path d="M6 10h12l-1.5 10h-9zM9 10v10M12 10v10M15 10v10"/><path d="M6 10a2.5 2.5 0 012-3.5A3 3 0 0112 4a3 3 0 014 2.5 2.5 2.5 0 012 3.5"/>',baby:'<circle cx="12" cy="12" r="8"/><path d="M9 11h.01M15 11h.01M9.5 15c1.5 1.3 3.5 1.3 5 0M12 4c1-1 3-1 3 1"/>',carrot:'<path d="M14 9L4 20l1 1 12-9z"/><path d="M14 9c0-3 2-4 4-4 0 2-1 4-4 4zM17 12c3 0 4-2 4-4-2 0-4 1-4 4z"/>',cherry:'<circle cx="7" cy="17" r="3"/><circle cx="17" cy="16" r="3"/><path d="M7 14c0-5 3-8 8-10M17 13c0-4-1-7-2-9"/>',case:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 13h18"/>',trend:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',clock:'<circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/>',trophy:'<path d="M8 4h8v5a4 4 0 01-8 0zM8 6H4c0 3 1 4 4 4M16 6h4c0 3-1 4-4 4M12 13v4M8 20h8"/>',coin:'<circle cx="12" cy="12" r="8"/><path d="M12 8v8M9.5 10c.5-1 1.5-1.5 2.5-1.5s2.5.5 2.5 1.8-1.5 1.5-2.5 1.7-2.5.5-2.5 1.8S11 16 12 16s2-.5 2.5-1.5"/>',tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1"/>',box:'<path d="M3 8l9-5 9 5v8l-9 5-9-5zM3 8l9 5 9-5M12 13v8"/>',swap:'<path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/>',wallet:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 14.5h2"/>',card:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h3"/>',search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',left:'<path d="M15 5l-7 7 7 7"/>',right:'<path d="M9 5l7 7-7 7"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',plus:'<path d="M12 5v14M5 12h14"/>',back:'<path d="M21 5H9l-6 7 6 7h12zM13 10l4 4M17 10l-4 4"/>',list:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',pie:'<path d="M12 3v9h9a9 9 0 11-9-9z"/><path d="M15 3.5A9 9 0 0120.5 9H15z"/>',doc:'<path d="M7 3h8l4 4v14H7zM15 3v4h4M10 12h6M10 16h6"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.5 3.6-7 8-7s8 2.5 8 7"/>'};
+const IC={film:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 5v14M17 5v14M3 10h4M3 14h4M17 10h4M17 14h4"/>',mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0012 0M12 17v4M9 21h6"/>',headphones:'<path d="M4 15v-3a8 8 0 0116 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>',cake:'<path d="M4 20h16v-7H4zM4 16c3 2 5-2 8 0s5-2 8 0M12 13V9M12 6.5v.01"/>',apple:'<path d="M12 7c-2-1.5-6-1-6 4 0 5 3 9 6 9s6-4 6-9c0-5-4-5.5-6-4zM12 7c0-2 1-3 3-3"/>',bank:'<path d="M3 9l9-5 9 5zM5 9v8M9.5 9v8M14.5 9v8M19 9v8M3 20h18"/>',bars:'<path d="M5 20V12M10 20V6M15 20V10M20 20V3"/>',shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',bike:'<circle cx="6" cy="16" r="3.5"/><circle cx="18" cy="16" r="3.5"/><path d="M6 16l4-8h5l3 8M10 8H8M13 12l-3 4"/>',ball:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17M6 6c3 3 3 9 0 12M18 6c-3 3-3 9 0 12"/>',bed:'<path d="M3 18V7M3 14h18v4M21 14v-2a3 3 0 00-3-3h-8v5"/><circle cx="6.5" cy="11" r="1.5"/>',bulb:'<path d="M9 17h6M10 20h4M12 3a6 6 0 00-3.5 11c.5.5 1 1.2 1 2h5c0-.8.5-1.5 1-2A6 6 0 0012 3z"/>',tv:'<rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 3l4 4 4-4"/>',key:'<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3M14 9l2 2"/>',pin:'<path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',fuel:'<path d="M5 21V5a2 2 0 012-2h6a2 2 0 012 2v16M5 21h10M5 10h10M15 8h2a2 2 0 012 2v6a1.5 1.5 0 003 0V9l-3-3"/>',pill:'<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M9.5 9.5l5 5"/>',smile:'<circle cx="12" cy="12" r="9"/><path d="M8.5 14c1 1.5 2.2 2.2 3.5 2.2s2.5-.7 3.5-2.2M9 9.5h.01M15 9.5h.01"/>',bag:'<path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 016 0v2"/>',book:'<path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19a2 2 0 012-2h13"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/>',check:'<path d="M5 12.5l4.5 4.5L19 7"/>',trash:'<path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13M10 11v6M14 11v6"/>',edit:'<path d="M4 20l1-4L16 5l3 3L8 19zM14 7l3 3"/>',up:'<path d="M6 15l6-6 6 6"/>',sliders:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6"/>',menu:'<path d="M4 7h16M4 12h10M4 17h13"/>',cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/>',down:'<path d="M6 9l6 6 6-6"/>',coffee:'<path d="M5 8h11v6a4 4 0 01-4 4H9a4 4 0 01-4-4zM16 9h2a2 2 0 010 4h-2M8 3v2M12 3v2"/>',bolt:'<path d="M13 3L5 14h6l-1 7 8-11h-6z"/>',music:'<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',camera:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.5"/>',leaf:'<path d="M5 19C5 10 10 5 20 4c0 10-5 15-14 15zM5 19c3-5 6-8 10-10"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',finger:'<path d="M6 11a6 6 0 0112 0v2M9 20c-.5-2-1-4-1-6a4 4 0 018 0c0 2 .5 4 1 6M12 11v4c0 2 .5 3.5 1 5M4 15c.3-1 .5-2 .5-3"/>',more:'<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',piggy:'<path d="M5 11c0-3 3-5 7-5s7 2 7 5-1 4-3 5v3h-3v-2h-2v2H8v-3c-2-1-3-2-3-5z"/><path d="M15 10h.01M9.5 6.5l1-2"/>',cart:'<circle cx="9" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/><path d="M3 4h2l2.5 10h10L20 7H6.5"/>',food:'<path d="M6 3v7a2 2 0 004 0V3M8 3v18M17 21V3c-2 1.5-3 4-3 7 0 2 1 3 3 3"/>',phone:'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/>',game:'<rect x="3" y="8" width="18" height="10" rx="4"/><path d="M8 11v4M6 13h4M15.5 12h.01M17.5 14h.01"/>',edu:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c3 2 9 2 12 0v-4.5"/>',scissors:'<circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M8 7.5L20 18M8 16.5L20 6"/>',sport:'<path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"/>',people:'<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.3"/><path d="M17 14c2.5 0 4 2 4 5"/>',bus:'<rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M8 20v-3M16 20v-3M8.5 14h.01M15.5 14h.01"/>',shirt:'<path d="M8 3L3 6l2 4 3-1v12h8V9l3 1 2-4-5-3c-1 1.5-2 2-4 2S9 4.5 8 3z"/>',car:'<path d="M4 16v-4l2-5h12l2 5v4M3 16h18M4 16v3h3v-3M17 16v3h3v-3M7 12h10"/>',glass:'<path d="M7 3h10c0 5-2 8-5 8S7 8 7 3zM12 11v9M8 21h8"/>',cig:'<path d="M3 16h13v3H3zM19 16v3M22 16v3M17 5c0 3 3 3 3 7"/>',monitor:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/>',plane:'<path d="M3 13l18-9-6 17-3-7z"/>',heart:'<path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/>',paw:'<circle cx="6" cy="10" r="1.8"/><circle cx="10" cy="6" r="1.8"/><circle cx="14" cy="6" r="1.8"/><circle cx="18" cy="10" r="1.8"/><path d="M12 12c-3 0-5 3-5 5 0 2 2 2.5 5 2.5s5-.5 5-2.5c0-2-2-5-5-5z"/>',wrench:'<path d="M15 4a4.5 4.5 0 00-4 6l-7 7a2 2 0 003 3l7-7a4.5 4.5 0 006-4l-3 2-2-2 2-3z"/>',home:'<path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"/>',sofa:'<path d="M5 11V8a2 2 0 012-2h10a2 2 0 012 2v3M3 13a2 2 0 014 0v1h10v-1a2 2 0 014 0v4H3zM6 17v2M18 17v2"/>',gift:'<rect x="3" y="8" width="18" height="4"/><path d="M5 12v8h14v-8M12 8v12M12 8S9 8 8.5 6 10 3.5 12 8zM12 8s3 0 3.5-2S14 3.5 12 8z"/>',hand:'<path d="M3 15h4l4 2 7-1.5a1.6 1.6 0 00-.5-3L14 12M7 13l5-3 3 1M3 13v7h4"/>',dice:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 8.5h.01M15.5 8.5h.01M12 12h.01M8.5 15.5h.01M15.5 15.5h.01"/>',snack:'<path d="M6 10h12l-1.5 10h-9zM9 10v10M12 10v10M15 10v10"/><path d="M6 10a2.5 2.5 0 012-3.5A3 3 0 0112 4a3 3 0 014 2.5 2.5 2.5 0 012 3.5"/>',baby:'<circle cx="12" cy="12" r="8"/><path d="M9 11h.01M15 11h.01M9.5 15c1.5 1.3 3.5 1.3 5 0M12 4c1-1 3-1 3 1"/>',carrot:'<path d="M14 9L4 20l1 1 12-9z"/><path d="M14 9c0-3 2-4 4-4 0 2-1 4-4 4zM17 12c3 0 4-2 4-4-2 0-4 1-4 4z"/>',cherry:'<circle cx="7" cy="17" r="3"/><circle cx="17" cy="16" r="3"/><path d="M7 14c0-5 3-8 8-10M17 13c0-4-1-7-2-9"/>',case:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 13h18"/>',trend:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',clock:'<circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/>',trophy:'<path d="M8 4h8v5a4 4 0 01-8 0zM8 6H4c0 3 1 4 4 4M16 6h4c0 3-1 4-4 4M12 13v4M8 20h8"/>',coin:'<circle cx="12" cy="12" r="8"/><path d="M12 8v8M9.5 10c.5-1 1.5-1.5 2.5-1.5s2.5.5 2.5 1.8-1.5 1.5-2.5 1.7-2.5.5-2.5 1.8S11 16 12 16s2-.5 2.5-1.5"/>',tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1"/>',box:'<path d="M3 8l9-5 9 5v8l-9 5-9-5zM3 8l9 5 9-5M12 13v8"/>',swap:'<path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/>',wallet:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 14.5h2"/>',card:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h3"/>',search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',left:'<path d="M15 5l-7 7 7 7"/>',right:'<path d="M9 5l7 7-7 7"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',plus:'<path d="M12 5v14M5 12h14"/>',back:'<path d="M21 5H9l-6 7 6 7h12zM13 10l4 4M17 10l-4 4"/>',list:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',pie:'<path d="M12 3v9h9a9 9 0 11-9-9z"/><path d="M15 3.5A9 9 0 0120.5 9H15z"/>',doc:'<path d="M7 3h8l4 4v14H7zM15 3v4h4M10 12h6M10 16h6"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.5 3.6-7 8-7s8 2.5 8 7"/>'};
 const svg=n=>`<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||IC.box}</svg>`;
 const EX=[["Копилка","piggy"],["Шоппинг","cart"],["Еда","food"],["Телефон","phone"],["Развлечения","game"],["Образование","edu"],["Красота","scissors"],["Спорт","sport"],["Общение","people"],["Транспорт","bus"],["Одежда","shirt"],["Автомобиль","car"],["Алкоголь","glass"],["Сигареты","cig"],["Электроника","monitor"],["Путешествия","plane"],["Здоровье","heart"],["Питомец","paw"],["Ремонт","wrench"],["Жильё","home"],["Мебель","sofa"],["Подарки","gift"],["Помощь","hand"],["Лотерея","dice"],["Закуски","snack"],["Детские","baby"],["Овощи","carrot"],["Фрукты","cherry"]];
 const IN=[["Зарплата","case"],["Инвестиции","trend"],["Подработка","clock"],["Бонусы","trophy"],["Другие","coin"]];
-const cx=a=>a.map(n=>typeof n==="string"?[n,"tag"]:[n.n,n.i||"tag"]);
-const PICK=["tag","star","coffee","bolt","music","camera","leaf","piggy","cart","food","phone","game","edu","scissors","sport","people","bus","shirt","car","glass","cig","monitor","plane","heart","paw","wrench","home","sofa","gift","hand","dice","snack","baby","carrot","cherry","case","trend","clock","trophy","coin","wallet","card","box"];
-const cats=k=>k==="exp"?[...EX,...cx(S.cx)]:[...IN,...cx(S.ci)];
-const icon=(k,n)=>svg((cats(k).find(c=>c[0]===n)||[0,"box"])[1]);
+
+
+const cats=k=>S.cat[k].map(c=>[c.n,c.i,c.c]);
+const catI=(k,n)=>{const c=S.cat[k].find(x=>x.n===n);return c?c.i:"box"};
+const icon=(k,n)=>svg(catI(k,n));
 const PAL=["#e6c35c","#6fb7a8","#d98a7c","#8aa4d6","#b79bd6","#7cc4d9","#d6a46f","#9bc77d","#d687a8","#a3adbb"];
-const col=n=>{let h=0;for(const c of n)h=(h*31+c.charCodeAt(0))>>>0;return PAL[h%PAL.length]};
+const COLORS=["#ec7b6f","#d98a7c","#c79d8f","#e8863a","#efb98a","#e0b44f","#bfae48","#97b84a","#6fcf6a","#62c79b","#6fbcc8","#66a8d4","#5f8ce8","#9a92ee","#e37a98"];
+const hc=n=>{let h=0;for(const c of n)h=(h*31+c.charCodeAt(0))>>>0;return COLORS[h%COLORS.length]};
+const col=n=>{const c=S.cat&&(S.cat.exp.find(x=>x.n===n)||S.cat.inc.find(x=>x.n===n));return c?c.c:hc(n)};
+function defaultCats(cxx,cii){
+  const mk=(a,x)=>[...a.map(([n,i])=>({n,i,c:hc(n)})),...(Array.isArray(x)?x:[]).map(y=>typeof y==="string"?{n:y,i:"tag",c:hc(y)}:{n:y.n,i:y.i||"tag",c:hc(y.n)})];
+  return{exp:mk(EX,cxx),inc:mk(IN,cii)};
+}
+if(!S.cat||!Array.isArray(S.cat.exp)||!Array.isArray(S.cat.inc)){S.cat=defaultCats(S.cx,S.ci);S.cx=[];S.ci=[];save()}
 const pc=n=>n.toLocaleString("ru-RU",{maximumFractionDigits:2})+"%";
 const fmt=n=>n.toLocaleString("ru-RU",{maximumFractionDigits:2});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -185,6 +200,8 @@ function report(){
 function me(){
   const h=!!S.sec.hash;
   return`<div class="card"><b>Настройки</b><p class="mu" style="margin-top:6px">Данные хранятся на этом устройстве. Чтобы перенести их на другой телефон, скачайте резервную копию.</p></div>
+  <div class="mu sh">Учёт</div>
+  <button class="btn alt" id="cats">Категории расходов и доходов</button>
   <div class="mu sh">Защита</div>
   <button class="btn alt" id="pw">${h?"Изменить пароль":"Установить пароль"}</button>
   ${h?`<button class="btn alt" id="bio">${S.sec.bio?"Отключить вход по отпечатку":"Включить вход по отпечатку"}</button><button class="btn alt" id="pwoff">Убрать пароль</button>`:""}
@@ -210,6 +227,7 @@ function bind(){
   g("#bk",backup);g("#rs",()=>$("#rf").click());
   const rf=$("#rf");if(rf)rf.onchange=e=>{if(e.target.files[0])restore(e.target.files[0]);e.target.value=""};
   g("#addG",()=>goalForm());
+  g("#cats",()=>catSettings("exp",()=>{close();render()}));
   $$("[data-gp]").forEach(b=>b.onclick=()=>goalMove(S.goals.find(x=>x.id==b.dataset.gp),1));
   $$("[data-gm]").forEach(b=>b.onclick=()=>goalMove(S.goals.find(x=>x.id==b.dataset.gm),-1));
   $$("[data-ge]").forEach(b=>b.onclick=()=>goalForm(S.goals.find(x=>x.id==b.dataset.ge)));
@@ -238,7 +256,7 @@ function mngAcc(){
 }
 
 function openSheet(edit){
-  let kind=edit?edit.kind:"exp",cat=edit?edit.cat:EX[0][0],expr=edit?String(edit.amt):"",date=edit?edit.date:today(),note=edit?edit.note||"":"",acc=edit?edit.acc:null,to=edit?edit.to:null,pick=!!edit;
+  let kind=edit?edit.kind:"exp",cat=edit?edit.cat:cats("exp")[0][0],expr=edit?String(edit.amt):"",date=edit?edit.date:today(),note=edit?edit.note||"":"",acc=edit?edit.acc:null,to=edit?edit.to:null,pick=!!edit;
   const opts=(sel,none)=>(none?`<option value="">${none}</option>`:"")+S.acc.map(a=>`<option value="${a.id}" ${a.id===sel?"selected":""}>${esc(a.name)}</option>`).join("");
   const keep=()=>{const n=$("#note");if(n){note=n.value;date=$("#dt").value||date}const a=$("#sa");if(a)acc=+a.value||null;const t=$("#st");if(t)to=+t.value||null};
   const draw=()=>{
@@ -246,7 +264,7 @@ function openSheet(edit){
     modal(`<div class="ph"><button class="x" id="cn">Отмена</button><b>${edit?"Изменить":"Добавить"}</b><span></span></div>
     <div class="seg">${[["exp","Расход"],["inc","Доход"],["tr","Перевод"]].map(([k,l])=>`<button data-k="${k}" class="${kind===k?"on":""}">${l}</button>`).join("")}</div>
     ${kind==="tr"?`<div class="two"><label>Откуда<select class="f" id="sa">${opts(acc,"Выбрать")}</select></label><label>Куда<select class="f" id="st">${opts(to,"Выбрать")}</select></label></div>`
-    :`<div class="cats">${cats(kind).map(c=>`<button class="cat ${pick&&c[0]===cat?"on":""}" data-c="${esc(c[0])}"><span class="ic" style="--c:${col(c[0])}">${svg(c[1])}</span>${esc(c[0])}</button>`).join("")}<button class="cat" id="newc"><span class="ic" style="--c:#a3adbb">${svg("plus")}</span>Своя</button></div>`}
+    :`<div class="cats">${cats(kind).map(c=>`<button class="cat ${pick&&c[0]===cat?"on":""}" data-c="${esc(c[0])}"><span class="ic" style="--c:${col(c[0])}">${svg(c[1])}</span>${esc(c[0])}</button>`).join("")}<button class="cat" id="newc"><span class="ic" style="--c:#a3adbb">${svg("sliders")}</span>Настройки</button></div>`}
     ${show?`<div class="calc"><div class="row"><span class="pk">${kind==="tr"?svg("swap")+"Перевод":icon(kind,cat)+esc(cat)}</span>${kind==="tr"?"":`<button class="x" id="hide" aria-label="Скрыть калькулятор">${svg("x")}</button>`}</div>
     <div class="disp" id="disp">${expr||"0"}</div>
     <input class="f" id="note" placeholder="Заметка" maxlength="80" value="${esc(note)}">
@@ -256,9 +274,9 @@ function openSheet(edit){
     {const c=$(".calc");$("#panel").style.paddingBottom=c?c.offsetHeight+16+"px":""}$("#panel").scrollTop=st;
     $("#cn").onclick=close;
     const hd=$("#hide");if(hd)hd.onclick=()=>{keep();pick=false;draw()};
-    $$("[data-k]").forEach(b=>b.onclick=()=>{keep();kind=b.dataset.k;cat=kind==="exp"?EX[0][0]:IN[0][0];pick=false;draw()});
+    $$("[data-k]").forEach(b=>b.onclick=()=>{keep();kind=b.dataset.k;cat=cats(kind)[0][0];pick=false;draw()});
     $$("[data-c]").forEach(b=>b.onclick=()=>{keep();cat=b.dataset.c;pick=true;draw()});
-    const nc=$("#newc");if(nc)nc.onclick=()=>{keep();catForm(kind,n=>{if(n){cat=n;pick=true}draw()})};
+    const nc=$("#newc");if(nc)nc.onclick=()=>{keep();catSettings(kind,()=>{if(!cats(kind).some(c=>c[0]===cat)){cat=cats(kind)[0][0];pick=false}draw()})};
     $$("[data-n]").forEach(b=>b.onclick=()=>key(b.dataset.n));
     if(edit)$("#del").onclick=()=>{S.tx=S.tx.filter(t=>t.id!==edit.id);save();close();render()};
   };
@@ -302,20 +320,55 @@ function monthPicker(){
   draw();
 }
 
-/* ---------- своя категория ---------- */
-function catForm(kind,done){
-  let ic="tag";
-  modal(`<div class="ph"><button class="x" id="cn">Отмена</button><b>Новая категория</b><span></span></div>
-  <input class="f" id="cname" placeholder="Название" maxlength="20">
-  <div class="mu sh">Иконка</div>
-  <div class="icg">${PICK.map(k=>`<button class="pi ${k===ic?"on":""}" data-pi="${k}" aria-label="${k}">${svg(k)}</button>`).join("")}</div>
-  <p class="er" id="er"></p><button class="btn" id="ok">Добавить</button>`);
-  $("#cn").onclick=()=>done(null);
-  $$("[data-pi]").forEach(b=>b.onclick=()=>{ic=b.dataset.pi;$$("[data-pi]").forEach(x=>x.classList.toggle("on",x===b))});
-  $("#ok").onclick=()=>{
-    const n=$("#cname").value.trim();if(!n){$("#er").textContent="Введите название.";return}
-    if(cats(kind).some(c=>c[0].toLowerCase()===n.toLowerCase())){$("#er").textContent="Такая категория уже есть.";return}
-    S[kind==="exp"?"cx":"ci"].push({n,i:ic});save();done(n);
+/* ---------- категории ---------- */
+const ICON_GROUPS=[["Развлечения",["game","music","film","mic","headphones","camera","dice","star","tv"]],["Еда",["food","coffee","glass","cake","apple","cherry","carrot","snack"]],["Финансы",["coin","wallet","card","bank","bars","trend","shield","case","trophy","piggy"]],["Спорт",["sport","bike","ball"]],["Дом и быт",["home","sofa","bed","bulb","key","wrench","bolt","leaf","paw","baby"]],["Транспорт",["bus","car","plane","fuel","pin"]],["Люди и здоровье",["people","smile","heart","pill","hand"]],["Покупки и другое",["cart","bag","shirt","gift","scissors","phone","monitor","edu","book","globe","mail","clock","cig","tag","box"]]];
+function catSettings(kind0,done){
+  let kind=kind0;
+  const draw=()=>{
+    const L=S.cat[kind];
+    modal(`<div class="ph"><button class="x" id="cn" aria-label="Назад" style="font-size:20px">${svg("left")}</button><b>Категории</b><span style="width:34px"></span></div>
+    <div class="seg"><button data-k="exp" class="${kind==="exp"?"on":""}">Расход</button><button data-k="inc" class="${kind==="inc"?"on":""}">Доход</button></div>
+    ${L.map((c,i)=>`<div class="cs"><div class="ic" style="--c:${c.c}">${svg(c.i)}</div><div class="cn2">${esc(c.n)}</div><div class="acts"><button class="x" data-up="${i}" ${i?"":"disabled"} aria-label="Выше">${svg("up")}</button><button class="x" data-dn="${i}" ${i<L.length-1?"":"disabled"} aria-label="Ниже">${svg("down")}</button><button class="x" data-ed="${i}" aria-label="Изменить">${svg("edit")}</button><button class="x" data-rm="${i}" aria-label="Удалить">${svg("trash")}</button></div></div>`).join("")}
+    <div class="stk"><button class="btn" id="addc">Добавить категорию</button></div>`);
+    $("#cn").onclick=()=>{if(done)done()};
+    $$("[data-k]").forEach(b=>b.onclick=()=>{kind=b.dataset.k;draw()});
+    $$("[data-up]").forEach(b=>b.onclick=()=>{const i=+b.dataset.up;const t=L[i-1];L[i-1]=L[i];L[i]=t;save();draw()});
+    $$("[data-dn]").forEach(b=>b.onclick=()=>{const i=+b.dataset.dn;const t=L[i+1];L[i+1]=L[i];L[i]=t;save();draw()});
+    $$("[data-ed]").forEach(b=>b.onclick=()=>catEditor(kind,L[+b.dataset.ed],draw));
+    $$("[data-rm]").forEach(b=>b.onclick=()=>{
+      const c=L[+b.dataset.rm];
+      if(L.length<2){alert("Нужна хотя бы одна категория.");return}
+      if(confirm("Удалить категорию «"+c.n+"»? Старые записи с ней сохранятся.")){S.cat[kind]=L.filter(x=>x!==c);save();draw()}});
+    $("#addc").onclick=()=>catEditor(kind,null,draw);
+  };
+  draw();
+}
+function catEditor(kind0,ex,back){
+  let kind=kind0,ic=ex?ex.i:"tag",clr=ex?ex.c:COLORS[Math.floor(Math.random()*COLORS.length)];
+  modal(`<div class="stt"><div class="ph"><button class="x" id="cn">Отмена</button><b>${ex?"Изменить категорию":"Добавить категорию"}</b><button class="x" id="sv" aria-label="Сохранить" style="color:var(--acc);font-size:20px">${svg("check")}</button></div>
+  ${ex?"":`<div class="seg"><button data-k="exp" class="${kind==="exp"?"on":""}">Расход</button><button data-k="inc" class="${kind==="inc"?"on":""}">Доход</button></div>`}
+  <div class="ed"><div class="ic" id="pv"></div><input class="f" id="nm" placeholder="Название категории" maxlength="20" value="${ex?esc(ex.n):""}"></div>
+  <div class="clg">${COLORS.map(c=>`<button class="cc" data-cl="${c}" style="background:${c}" aria-label="Цвет"></button>`).join("")}</div><p class="er" id="er"></p></div>
+  ${ICON_GROUPS.map(([t,l])=>`<div class="gt">${t}</div><div class="icg">${l.map(k=>`<button class="pi" data-pi="${k}" aria-label="Иконка">${svg(k)}</button>`).join("")}</div>`).join("")}`);
+  $("#panel").scrollTop=0;
+  const upd=()=>{
+    $("#pv").style.setProperty("--c",clr);$("#pv").innerHTML=svg(ic);
+    $("#panel").style.setProperty("--sel",clr);
+    $$("[data-cl]").forEach(b=>b.innerHTML=b.dataset.cl===clr?svg("check"):"");
+    $$("[data-pi]").forEach(b=>b.classList.toggle("on",b.dataset.pi===ic));
+  };
+  upd();
+  $("#cn").onclick=()=>{if(back)back()};
+  $$("[data-k]").forEach(b=>b.onclick=()=>{kind=b.dataset.k;$$("[data-k]").forEach(x=>x.classList.toggle("on",x===b))});
+  $$("[data-cl]").forEach(b=>b.onclick=()=>{clr=b.dataset.cl;upd()});
+  $$("[data-pi]").forEach(b=>b.onclick=()=>{ic=b.dataset.pi;upd()});
+  $("#sv").onclick=()=>{
+    const n=$("#nm").value.trim(),e=$("#er");
+    if(!n){e.textContent="Введите название.";return}
+    if(S.cat[kind].some(c=>c!==ex&&c.n.toLowerCase()===n.toLowerCase())){e.textContent="Такая категория уже есть.";return}
+    if(ex){if(ex.n!==n)S.tx.forEach(t=>{if(t.kind===kind&&t.cat===ex.n)t.cat=n});ex.n=n;ex.i=ic;ex.c=clr}
+    else S.cat[kind].push({n,i:ic,c:clr});
+    save();if(back)back();
   };
 }
 
@@ -355,7 +408,7 @@ function goalMove(g,sign){
 
 /* ---------- резервная копия ---------- */
 function backup(){
-  const d={app:"finansy",v:2,date:new Date().toISOString(),data:{tx:S.tx,acc:S.acc,budget:S.budget,cx:S.cx,ci:S.ci,goals:S.goals,theme:S.theme}};
+  const d={app:"finansy",v:2,date:new Date().toISOString(),data:{tx:S.tx,acc:S.acc,budget:S.budget,cat:S.cat,goals:S.goals,theme:S.theme}};
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(d)],{type:"application/json"}));
   a.download="finansy-backup-"+today()+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),3000);
 }
@@ -365,7 +418,7 @@ function restore(file){
     const j=JSON.parse(r.result),d=j.data;
     if(j.app!=="finansy"||!d||!Array.isArray(d.tx))throw 0;
     if(!confirm("Заменить данные на этом устройстве данными из копии ("+d.tx.length+" записей)?"))return;
-    S.tx=d.tx;S.acc=Array.isArray(d.acc)?d.acc:[];S.budget=+d.budget||0;S.cx=Array.isArray(d.cx)?d.cx:[];S.ci=Array.isArray(d.ci)?d.ci:[];S.goals=Array.isArray(d.goals)?d.goals:[];
+    S.tx=d.tx;S.acc=Array.isArray(d.acc)?d.acc:[];S.budget=+d.budget||0;if(d.cat&&Array.isArray(d.cat.exp)&&Array.isArray(d.cat.inc))S.cat=d.cat;else S.cat=defaultCats(d.cx,d.ci);S.cx=[];S.ci=[];S.goals=Array.isArray(d.goals)?d.goals:[];
     if(d.theme==="light"||d.theme==="dark"){S.theme=d.theme;document.documentElement.dataset.t=S.theme}
     save();render();alert("Данные восстановлены.");
   }catch(e){alert("Этот файл не похож на резервную копию «Финансов».")}};
